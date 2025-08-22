@@ -8,23 +8,30 @@ class LiquidGlassEffect {
         this.uniforms = {};
         this.isInitialized = false;
         
+        console.log('LiquidGlassEffect: Initializing...');
         this.init();
     }
 
     init() {
-        this.gl = this.canvas.getContext("webgl", { antialias: true }) || 
-                  this.canvas.getContext("experimental-webgl", { antialias: true });
-        
-        if (!this.gl) {
-            console.error("WebGL not supported");
-            return;
-        }
+        try {
+            this.gl = this.canvas.getContext("webgl", { antialias: true }) || 
+                      this.canvas.getContext("experimental-webgl", { antialias: true });
+            
+            if (!this.gl) {
+                console.error("WebGL not supported");
+                return;
+            }
 
-        this.setupShaders();
-        this.setupBuffers();
-        this.setupUniforms();
-        this.resize();
-        this.isInitialized = true;
+            console.log('LiquidGlassEffect: WebGL context created successfully');
+            this.setupShaders();
+            this.setupBuffers();
+            this.setupUniforms();
+            this.resize();
+            this.isInitialized = true;
+            console.log('LiquidGlassEffect: Initialization complete');
+        } catch (error) {
+            console.error('LiquidGlassEffect: Initialization failed:', error);
+        }
     }
 
     setupShaders() {

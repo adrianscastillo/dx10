@@ -51,10 +51,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('glassCanvas');
     const logoElement = document.getElementById('dx10Logo');
     
+    console.log('Glass effect elements:', { canvas, logoElement });
+    
     if (canvas && logoElement) {
+        console.log('Creating LiquidGlassEffect...');
         glassEffect = new LiquidGlassEffect(canvas, logoElement);
+        console.log('Creating background texture...');
         createBackgroundTexture();
+        console.log('Starting animation...');
         animate();
+    } else {
+        console.error('Glass effect elements not found:', { canvas, logoElement });
     }
     
     const customCursor = document.getElementById('customCursor');
