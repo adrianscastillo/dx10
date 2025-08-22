@@ -1,6 +1,61 @@
+// Glass Effect Initialization
+let glassEffect = null;
+let backgroundTexture = null;
+
+function createBackgroundTexture() {
+    if (!glassEffect) return;
+    
+    // Create a canvas to capture the background
+    const bgCanvas = document.createElement('canvas');
+    const bgCtx = bgCanvas.getContext('2d');
+    bgCanvas.width = window.innerWidth;
+    bgCanvas.height = window.innerHeight;
+    
+    // Draw the background gradient
+    const gradient = bgCtx.createRadialGradient(
+        window.innerWidth * 0.2, window.innerHeight * 0.3, 0,
+        window.innerWidth * 0.2, window.innerHeight * 0.3, window.innerWidth * 0.8
+    );
+    gradient.addColorStop(0, '#0002AA');
+    gradient.addColorStop(0.5, '#000000');
+    gradient.addColorStop(1, '#000000');
+    
+    bgCtx.fillStyle = gradient;
+    bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+    
+    // Create WebGL texture
+    const texture = glassEffect.gl.createTexture();
+    glassEffect.gl.bindTexture(glassEffect.gl.TEXTURE_2D, texture);
+    glassEffect.gl.texImage2D(glassEffect.gl.TEXTURE_2D, 0, glassEffect.gl.RGBA, glassEffect.gl.RGBA, glassEffect.gl.UNSIGNED_BYTE, bgCanvas);
+    glassEffect.gl.texParameteri(glassEffect.gl.TEXTURE_2D, glassEffect.gl.TEXTURE_MIN_FILTER, glassEffect.gl.LINEAR);
+    glassEffect.gl.texParameteri(glassEffect.gl.TEXTURE_2D, glassEffect.gl.TEXTURE_MAG_FILTER, glassEffect.gl.LINEAR);
+    glassEffect.gl.texParameteri(glassEffect.gl.TEXTURE_2D, glassEffect.gl.TEXTURE_WRAP_S, glassEffect.gl.CLAMP_TO_EDGE);
+    glassEffect.gl.texParameteri(glassEffect.gl.TEXTURE_2D, glassEffect.gl.TEXTURE_WRAP_T, glassEffect.gl.CLAMP_TO_EDGE);
+    
+    backgroundTexture = texture;
+    glassEffect.setBackground(texture);
+}
+
+function animate() {
+    if (glassEffect) {
+        glassEffect.render();
+    }
+    requestAnimationFrame(animate);
+}
+
 // Menu functionality
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded');
+    
+    // Initialize glass effect
+    const canvas = document.getElementById('glassCanvas');
+    const logoElement = document.getElementById('dx10Logo');
+    
+    if (canvas && logoElement) {
+        glassEffect = new LiquidGlassEffect(canvas, logoElement);
+        createBackgroundTexture();
+        animate();
+    }
     
     const customCursor = document.getElementById('customCursor');
     
@@ -291,3 +346,11 @@ function initParallaxEffect() {
 
 // Initialize parallax effect
 initParallaxEffect();
+
+// Handle window resize for glass effect
+window.addEventListener('resize', function() {
+    if (glassEffect) {
+        glassEffect.resize();
+        createBackgroundTexture();
+    }
+});

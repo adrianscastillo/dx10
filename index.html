@@ -14,6 +14,7 @@
     <link rel="manifest" href="/site.webmanifest">
     
     <link rel="stylesheet" href="styles.css">
+    <script src="glass-effect.js" defer></script>
     <script src="script.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,13 +54,16 @@
         </div>
     </div>
 
+    <!-- Glass Effect Canvas -->
+    <canvas id="glassCanvas" class="glass-canvas"></canvas>
+    
     <!-- Main Content Wrapper -->
     <div class="main-content" id="mainContent">
         
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
-                <img src="DX10 Logo Flattened White.svg" alt="DX10 Logo" class="logo-svg">
+                <img src="DX10 Logo Flattened White.svg" alt="DX10 Logo" class="logo-svg" id="dx10Logo">
             </div>
         </section>
 
