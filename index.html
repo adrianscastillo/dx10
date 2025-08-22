@@ -14,7 +14,8 @@
     <link rel="manifest" href="/site.webmanifest">
     
     <link rel="stylesheet" href="styles.css">
-    <script src="glass-effect.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <script src="blob-effect.js"></script>
     <script src="script.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +23,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Blob Effect Background -->
+    <div id="blob-container"></div>
+    
     <!-- Custom Cursor -->
     <div class="custom-cursor" id="customCursor"></div>
     
@@ -54,16 +58,13 @@
         </div>
     </div>
 
-    <!-- Glass Effect Canvas -->
-    <canvas id="glassCanvas" class="glass-canvas"></canvas>
-    
     <!-- Main Content Wrapper -->
     <div class="main-content" id="mainContent">
         
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
-                <img src="DX10 Logo Flattened White.svg" alt="DX10 Logo" class="logo-svg" id="dx10Logo">
+                <img src="DX10 Logo Flattened White.svg" alt="DX10 Logo" class="logo-svg">
             </div>
         </section>
 
