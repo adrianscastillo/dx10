@@ -1,68 +1,6 @@
-// Glass Effect Initialization
-let glassEffect = null;
-let backgroundTexture = null;
-
-function createBackgroundTexture() {
-    if (!glassEffect) return;
-    
-    // Create a canvas to capture the background
-    const bgCanvas = document.createElement('canvas');
-    const bgCtx = bgCanvas.getContext('2d');
-    bgCanvas.width = window.innerWidth;
-    bgCanvas.height = window.innerHeight;
-    
-    // Draw the background gradient
-    const gradient = bgCtx.createRadialGradient(
-        window.innerWidth * 0.2, window.innerHeight * 0.3, 0,
-        window.innerWidth * 0.2, window.innerHeight * 0.3, window.innerWidth * 0.8
-    );
-    gradient.addColorStop(0, '#0002AA');
-    gradient.addColorStop(0.5, '#000000');
-    gradient.addColorStop(1, '#000000');
-    
-    bgCtx.fillStyle = gradient;
-    bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-    
-    // Create WebGL texture
-    const texture = glassEffect.gl.createTexture();
-    glassEffect.gl.bindTexture(glassEffect.gl.TEXTURE_2D, texture);
-    glassEffect.gl.texImage2D(glassEffect.gl.TEXTURE_2D, 0, glassEffect.gl.RGBA, glassEffect.gl.RGBA, glassEffect.gl.UNSIGNED_BYTE, bgCanvas);
-    glassEffect.gl.texParameteri(glassEffect.gl.TEXTURE_2D, glassEffect.gl.TEXTURE_MIN_FILTER, glassEffect.gl.LINEAR);
-    glassEffect.gl.texParameteri(glassEffect.gl.TEXTURE_2D, glassEffect.gl.TEXTURE_MAG_FILTER, glassEffect.gl.LINEAR);
-    glassEffect.gl.texParameteri(glassEffect.gl.TEXTURE_2D, glassEffect.gl.TEXTURE_WRAP_S, glassEffect.gl.CLAMP_TO_EDGE);
-    glassEffect.gl.texParameteri(glassEffect.gl.TEXTURE_2D, glassEffect.gl.TEXTURE_WRAP_T, glassEffect.gl.CLAMP_TO_EDGE);
-    
-    backgroundTexture = texture;
-    glassEffect.setBackground(texture);
-}
-
-function animate() {
-    if (glassEffect) {
-        glassEffect.render();
-    }
-    requestAnimationFrame(animate);
-}
-
 // Menu functionality
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded');
-    
-    // Initialize glass effect
-    const canvas = document.getElementById('glassCanvas');
-    const logoElement = document.getElementById('dx10Logo');
-    
-    console.log('Glass effect elements:', { canvas, logoElement });
-    
-    if (canvas && logoElement) {
-        console.log('Creating LiquidGlassEffect...');
-        glassEffect = new LiquidGlassEffect(canvas, logoElement);
-        console.log('Creating background texture...');
-        createBackgroundTexture();
-        console.log('Starting animation...');
-        animate();
-    } else {
-        console.error('Glass effect elements not found:', { canvas, logoElement });
-    }
     
     const customCursor = document.getElementById('customCursor');
     
@@ -354,10 +292,74 @@ function initParallaxEffect() {
 // Initialize parallax effect
 initParallaxEffect();
 
-// Handle window resize for glass effect
-window.addEventListener('resize', function() {
-    if (glassEffect) {
-        glassEffect.resize();
-        createBackgroundTexture();
+// Cursor-responsive background triangles
+function initCursorResponsiveTriangles() {
+    const hero = document.querySelector('.hero');
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let time = 0;
+    
+    // Track mouse movement
+    document.addEventListener('mousemove', function(e) {
+        mouseX = (e.clientX / window.innerWidth) * 100;
+        mouseY = (e.clientY / window.innerHeight) * 100;
+    });
+    
+    // Animate background position based on cursor
+    function animateTriangles() {
+        time += 0.01;
+        
+        // More organic interpolation with easing
+        currentX += (mouseX - currentX) * 0.05;
+        currentY += (mouseY - currentY) * 0.05;
+        
+        if (hero) {
+            // Add subtle organic movement with sine waves
+            const organicX = Math.sin(time * 0.5) * 2;
+            const organicY = Math.cos(time * 0.3) * 2;
+            
+            // Update background position based on cursor movement with organic variation
+            const moveX = (currentX - 50) * 0.6 + organicX;
+            const moveY = (currentY - 50) * 0.6 + organicY;
+            
+            // Constrain movement to prevent horizontal scroll
+            const constrainedMoveX = Math.max(-25, Math.min(25, moveX));
+            const constrainedMoveY = Math.max(-25, Math.min(25, moveY));
+            
+            // Add individual triangle breathing with different frequencies
+            const breath1 = Math.sin(time * 0.8) * 1;
+            const breath2 = Math.cos(time * 1.2) * 1;
+            const breath3 = Math.sin(time * 0.6) * 1;
+            const breath4 = Math.cos(time * 0.9) * 1;
+            const breath5 = Math.sin(time * 1.1) * 1;
+            const breath6 = Math.cos(time * 0.7) * 1;
+            const breath7 = Math.sin(time * 1.0) * 1;
+            const breath8 = Math.cos(time * 0.5) * 1;
+            const breath9 = Math.sin(time * 0.4) * 1;
+            
+            hero.style.backgroundPosition = `
+                ${Math.max(5, Math.min(35, 20 + constrainedMoveX * 0.6 + breath1))}% ${Math.max(15, Math.min(45, 30 + constrainedMoveY * 0.6 + breath1))}%, 
+                ${Math.max(65, Math.min(95, 80 + constrainedMoveX * 0.4 + breath2))}% ${Math.max(55, Math.min(85, 70 + constrainedMoveY * 0.4 + breath2))}%, 
+                ${Math.max(25, Math.min(55, 40 + constrainedMoveX * 0.8 + breath3))}% ${Math.max(65, Math.min(95, 80 + constrainedMoveY * 0.8 + breath3))}%, 
+                ${Math.max(75, Math.min(105, 90 + constrainedMoveX * 0.2 + breath4))}% ${Math.max(5, Math.min(35, 20 + constrainedMoveY * 0.2 + breath4))}%, 
+                ${Math.max(-5, Math.min(25, 10 + constrainedMoveX * 1.0 + breath5))}% ${Math.max(45, Math.min(75, 60 + constrainedMoveY * 1.0 + breath5))}%, 
+                ${Math.max(45, Math.min(75, 60 + constrainedMoveX * 0.6 + breath6))}% ${Math.max(25, Math.min(55, 40 + constrainedMoveY * 0.6 + breath6))}%, 
+                ${Math.max(15, Math.min(45, 30 + constrainedMoveX * 0.4 + breath7))}% ${Math.max(35, Math.min(65, 50 + constrainedMoveY * 0.4 + breath7))}%, 
+                ${Math.max(55, Math.min(85, 70 + constrainedMoveX * 0.8 + breath8))}% ${Math.max(15, Math.min(45, 30 + constrainedMoveY * 0.8 + breath8))}%, 
+                ${Math.max(35, Math.min(65, 50 + constrainedMoveX * 0.2 + breath9))}% ${Math.max(35, Math.min(65, 50 + constrainedMoveY * 0.2 + breath9))}%, 
+                0% 0%, 
+                0% 0%
+            `;
+        }
+        
+        requestAnimationFrame(animateTriangles);
     }
-});
+    
+    // Start animation
+    animateTriangles();
+}
+
+// Initialize cursor-responsive triangles
+initCursorResponsiveTriangles();

@@ -5,24 +5,6 @@
     box-sizing: border-box;
 }
 
-/* Blob Effect Container */
-#blob-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    pointer-events: none;
-}
-
-#blob-container canvas {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
 /* Custom Cursor */
 .custom-cursor {
     position: fixed;
@@ -263,22 +245,103 @@ body {
 .hero {
     height: 150vh;
     background: 
-        radial-gradient(circle at 20% 30%, #0002AA 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 40% 80%, #0002AA 0%, transparent 60%),
-        radial-gradient(circle at 90% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 45%),
-        radial-gradient(circle at 10% 60%, #0002AA 0%, transparent 55%),
-        radial-gradient(circle at 50% 50%, #000000 0%, transparent 70%),
+        conic-gradient(from 30deg at 20% 30%, #0002AA 0deg, transparent 120deg),
+        conic-gradient(from 120deg at 40% 80%, #0002AA 0deg, transparent 120deg),
+        conic-gradient(from 75deg at 10% 60%, #0002AA 0deg, transparent 120deg),
+        conic-gradient(from 255deg at 30% 50%, #0002AA 0deg, transparent 120deg),
+        conic-gradient(from 60deg at 50% 50%, #000000 0deg, transparent 180deg),
         linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%),
         #000000;
-    background-size: 300% 300%, 250% 250%, 400% 400%, 350% 350%, 280% 280%, 100% 100%, 100% 100%;
+    background-size: 150% 150%, 200% 200%, 140% 140%, 160% 160%, 100% 100%, 100% 100%;
     animation: blobAnimation 20s ease-in-out infinite;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
+    mix-blend-mode: lighten;
+    z-index: -2;
 }
+
+/* Top and Bottom Blur Effects */
+.top-blur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    pointer-events: none;
+    z-index: 1000;
+    backdrop-filter: blur(24px);
+    -webkit-mask: linear-gradient(to bottom, black 0%, transparent 100%);
+    mask: linear-gradient(to bottom, black 0%, transparent 100%);
+}
+
+/* Vertical Rectangle Blur Effects */
+.vertical-blur {
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 150vh;
+    pointer-events: none;
+    z-index: -1;
+    background: rgba(255, 255, 255, 0.2);
+    -webkit-mask: linear-gradient(to right, black 0%, transparent 100%);
+    mask: linear-gradient(to right, black 0%, transparent 100%);
+    mix-blend-mode: overlay;
+}
+
+
+
+.vertical-blur:nth-child(1) { left: -60px; opacity: 0; }
+.vertical-blur:nth-child(2) { left: calc(-60px + 3.33%); }
+.vertical-blur:nth-child(3) { left: calc(-60px + 6.67%); }
+.vertical-blur:nth-child(4) { left: calc(-60px + 10%); }
+.vertical-blur:nth-child(5) { left: calc(-60px + 13.33%); }
+.vertical-blur:nth-child(6) { left: calc(-60px + 16.67%); }
+.vertical-blur:nth-child(7) { left: calc(-60px + 20%); }
+.vertical-blur:nth-child(8) { left: calc(-60px + 23.33%); }
+.vertical-blur:nth-child(9) { left: calc(-60px + 26.67%); }
+.vertical-blur:nth-child(10) { left: calc(-60px + 30%); }
+.vertical-blur:nth-child(11) { left: calc(-60px + 33.33%); }
+.vertical-blur:nth-child(12) { left: calc(-60px + 36.67%); }
+.vertical-blur:nth-child(13) { left: calc(-60px + 40%); }
+.vertical-blur:nth-child(14) { left: calc(-60px + 43.33%); }
+.vertical-blur:nth-child(15) { left: calc(-60px + 46.67%); }
+.vertical-blur:nth-child(16) { left: calc(-60px + 50%); }
+.vertical-blur:nth-child(17) { left: calc(-60px + 53.33%); }
+.vertical-blur:nth-child(18) { left: calc(-60px + 56.67%); }
+.vertical-blur:nth-child(19) { left: calc(-60px + 60%); }
+.vertical-blur:nth-child(20) { left: calc(-60px + 63.33%); }
+.vertical-blur:nth-child(21) { left: calc(-60px + 66.67%); }
+.vertical-blur:nth-child(22) { left: calc(-60px + 70%); }
+.vertical-blur:nth-child(23) { left: calc(-60px + 73.33%); }
+.vertical-blur:nth-child(24) { left: calc(-60px + 76.67%); }
+.vertical-blur:nth-child(25) { left: calc(-60px + 80%); }
+.vertical-blur:nth-child(26) { left: calc(-60px + 83.33%); }
+.vertical-blur:nth-child(27) { left: calc(-60px + 86.67%); }
+.vertical-blur:nth-child(28) { left: calc(-60px + 90%); }
+.vertical-blur:nth-child(29) { left: calc(-60px + 93.33%); }
+.vertical-blur:nth-child(30) { left: calc(-60px + 96.67%); }
+.vertical-blur:nth-child(31) { left: calc(-60px + 96.67%); }
+.vertical-blur:nth-child(32) { left: calc(-60px + 100%); }
+
+.bottom-blur {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    pointer-events: none;
+    z-index: 1000;
+    backdrop-filter: blur(24px);
+    -webkit-mask: linear-gradient(to top, black 0%, transparent 100%);
+    mask: linear-gradient(to top, black 0%, transparent 100%);
+}
+
+
+
+
 
 .hero::before {
     content: '';
@@ -287,9 +350,9 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.95) 100%);
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 70%, rgba(0, 0, 0, 1.0) 100%);
     pointer-events: none;
-    z-index: 1;
+    z-index: 15;
 }
 
 
@@ -333,6 +396,39 @@ body {
     }
 }
 
+@keyframes grainMove {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    10% {
+        transform: translate(-5%, -5%);
+    }
+    20% {
+        transform: translate(-10%, 5%);
+    }
+    30% {
+        transform: translate(5%, -10%);
+    }
+    40% {
+        transform: translate(-5%, 15%);
+    }
+    50% {
+        transform: translate(-10%, 5%);
+    }
+    60% {
+        transform: translate(15%, 0%);
+    }
+    70% {
+        transform: translate(0%, 10%);
+    }
+    80% {
+        transform: translate(-15%, 0%);
+    }
+    90% {
+        transform: translate(10%, 5%);
+    }
+}
+
 @keyframes shootLeft {
     0% {
         transform: translateY(-50%) translateX(0);
@@ -366,16 +462,21 @@ body {
 }
 
 .logo-svg {
-    height: 320px;
+    height: 576px;
     width: auto;
-    max-width: 1200px;
-    filter: brightness(0) invert(1);
-    position: absolute;
-    top: calc(50% - 200px);
+    max-width: 2160px;
+    position: fixed;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10;
+    z-index: 20;
+    transition: all 0.3s ease;
+    opacity: 1;
+    mix-blend-mode: normal;
+
 }
+
+
 
 .description p {
     font-size: 1.25rem;
@@ -843,4 +944,20 @@ body {
         height: 120px;
         margin-right: -60px;
     }
+}
+
+/* Shader Canvas */
+.shader-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
 }
