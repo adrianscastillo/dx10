@@ -2,19 +2,19 @@
 // Creates organic, animated blob shapes with DX10 branding colors
 
 let blobs = [];
-let numBlobs = 3;
+let numBlobs = 1;
 let time = 0;
 
 class Blob {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.size = random(120, 200);
+        this.size = random(150, 250);
         this.angle = 0;
         this.angleSpeed = random(0.005, 0.015);
         this.noiseOffset = random(1000);
         this.color = this.getDX10Color();
-        this.alpha = random(60, 100);
+        this.alpha = random(40, 80);
         this.pulseSpeed = random(0.02, 0.05);
         this.pulseOffset = random(TWO_PI);
     }
@@ -46,8 +46,8 @@ class Blob {
         let currentSize = this.size * pulse;
         
         fill(this.color[0], this.color[1], this.color[2], this.alpha);
-        stroke(255, 255, 255, 30);
-        strokeWeight(2);
+        stroke(255, 255, 255, 20);
+        strokeWeight(1);
         
         beginShape();
         for (let i = 0; i < TWO_PI; i += 0.05) {
@@ -71,30 +71,13 @@ function setup() {
     let canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent('blob-container');
     
-    // Create blobs in strategic positions
-    for (let i = 0; i < numBlobs; i++) {
-        let x, y;
-        if (i === 0) {
-            // Center blob
-            x = width * 0.5;
-            y = height * 0.4;
-        } else if (i === 1) {
-            // Top right
-            x = width * 0.8;
-            y = height * 0.3;
-        } else {
-            // Bottom left
-            x = width * 0.2;
-            y = height * 0.6;
-        }
-        
-        blobs.push(new Blob(x, y));
-    }
+    // Create just one blob in the center
+    blobs.push(new Blob(width * 0.5, height * 0.4));
 }
 
 function draw() {
-    // Clear with slight transparency for trail effect
-    background(0, 0, 0, 20);
+    // Clear with transparent background
+    clear();
     
     // Update and display blobs
     for (let blob of blobs) {
